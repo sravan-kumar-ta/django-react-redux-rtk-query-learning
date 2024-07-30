@@ -4,7 +4,7 @@ import {
   GET_PROJECT_SUCCESS,
 } from "../constants/projectConstants";
 
-export const projectListsReducer = (state = { projects: {} }, action) => {
+export const projectListsReducer = (state = { projects: [] }, action) => {
   switch (action.type) {
     case GET_PROJECT_REQUEST:
       return { loading: true, success: false, projects: [] };
