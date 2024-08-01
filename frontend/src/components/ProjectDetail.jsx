@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { detailProject } from "../actions/projectActions";
-import { Card, Col, Container, Row } from "react-bootstrap";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { deleteProject, detailProject } from "../actions/projectActions";
+import { Button, Card, Col, Container, Row } from "react-bootstrap";
 
 const ProjectDetail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const projectDetail = useSelector((state) => state.detailProject);
   const { project } = projectDetail;
   console.log(projectDetail);
@@ -14,6 +15,11 @@ const ProjectDetail = () => {
   useEffect(() => {
     dispatch(detailProject(id));
   }, [id, dispatch]);
+
+  const handleDelete = (id) => {
+    dispatch(deleteProject(id));
+    navigate("/");
+  };
 
   return (
     <div>
@@ -39,20 +45,19 @@ const ProjectDetail = () => {
                 </a>
                 <br />
                 <hr />
-                {/* 
                 <Link to={"/update-project/" + id}>
                   <Button variant="primary" className="mt-2 mb-2 pd-2">
                     Update
                   </Button>
                 </Link>
+
                 <Button
                   className="m-2 pd-2"
                   variant="danger"
-                  onClick={() => deleteSingleProject(id)}
+                  onClick={() => handleDelete(id)}
                 >
                   Delete
                 </Button>
-                 */}
               </Card.Body>
             </Card>
           </Col>
