@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getListProjects } from "../actions/projectActions";
 import { Card, Col, Container, Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const ProjectLists = () => {
   // get data from store
@@ -44,7 +45,7 @@ const ProjectLists = () => {
                     >
                       Demo
                     </a>
-                    {/*                     
+
                     <Link
                       style={{
                         textDecoration: "none",
@@ -52,10 +53,10 @@ const ProjectLists = () => {
                         marginRight: "2px",
                       }}
                       className="m-2 pd-2 btn btn-success"
+                      to={"/detail-project/" + project.id}
                     >
                       View
-                    </Link> 
-                    */}
+                    </Link>
                   </span>
                 </Card.Body>
               </Card>

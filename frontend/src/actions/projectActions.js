@@ -3,6 +3,9 @@ import {
   ADD_PROJECT_REQUEST,
   ADD_PROJECT_REQUEST_FAIL,
   ADD_PROJECT_SUCCESS,
+  DETAIL_PROJECT_FAIL,
+  DETAIL_PROJECT_REQUEST,
+  DETAIL_PROJECT_SUCCESS,
   GET_PROJECT_FAIL,
   GET_PROJECT_REQUEST,
   GET_PROJECT_SUCCESS,
@@ -42,6 +45,26 @@ export const addProject = (projectData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: ADD_PROJECT_REQUEST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+// details
+export const detailProject = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: DETAIL_PROJECT_REQUEST });
+    const res = await axios.get(`http://127.0.0.1:8000/api/${id}`);
+    dispatch({
+      type: DETAIL_PROJECT_SUCCESS,
+      payload: res.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: DETAIL_PROJECT_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
