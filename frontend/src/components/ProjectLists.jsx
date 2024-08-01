@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import getListProjects from "../actions/projectActions";
+import { getListProjects } from "../actions/projectActions";
 import { Card, Col, Container, Row } from "react-bootstrap";
 
 const ProjectLists = () => {
@@ -44,7 +44,7 @@ const ProjectLists = () => {
                     >
                       Demo
                     </a>
-{/*                     
+                    {/*                     
                     <Link
                       style={{
                         textDecoration: "none",
@@ -56,7 +56,6 @@ const ProjectLists = () => {
                       View
                     </Link> 
                     */}
-
                   </span>
                 </Card.Body>
               </Card>

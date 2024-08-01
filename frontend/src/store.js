@@ -1,10 +1,11 @@
 import { combineReducers, createStore, applyMiddleware } from "redux";
 import { thunk } from "redux-thunk";
 import { composeWithDevTools } from "@redux-devtools/extension";
-import { projectListsReducer } from "./projectReducer/projectReducer";
+import { addProjectReducer, projectListsReducer } from "./projectReducer/projectReducer";
 
 const reducer = combineReducers({
   projectLists: projectListsReducer,
+  addProject: addProjectReducer
 });
 
 const middleware = [thunk];
