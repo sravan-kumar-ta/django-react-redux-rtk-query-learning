@@ -29,7 +29,23 @@ export const apiSlice = createApi({
             method: "POST",
             body: data,
          }),
-         invalidatesTags: ["Project"],
+         // invalidatesTags: ["Project"],
+         async onQueryStarted(args, { dispatch, queryFulfilled }) {
+            try {
+               const { data: createdProject } = await queryFulfilled;
+               dispatch(
+                  apiSlice.util.updateQueryData(
+                     "getProjects",
+                     undefined,
+                     (draft) => {
+                        draft.push(createdProject);
+                     }
+                  )
+               );
+            } catch (err) {
+               console.log(err);
+            }
+         },
       }),
 
       updateProject: build.mutation({
@@ -46,10 +62,24 @@ export const apiSlice = createApi({
             url: `/${id}`,
             method: "DELETE",
          }),
-         //  invalidatesTags: ["Project"],
-         invalidatesTags: (result, error, arg) => [
-            { type: "Project", id: arg },
-         ],
+         // invalidatesTags: ["Project"],
+         async onQueryStarted(args, { dispatch, queryFulfilled }) {
+            try {
+               await queryFulfilled;
+               dispatch(
+                  apiSlice.util.updateQueryData(
+                     "getProjects",
+                     undefined,
+                     (draft) => {
+                        //delete
+                        return draft?.filter((project) => project?.id !== args);
+                     }
+                  )
+               );
+            } catch (err) {
+               console.log(err);
+            }
+         },
       }),
    }),
 });
