@@ -9,14 +9,14 @@ export const apiSlice = createApi({
    endpoints: (build) => ({
       getProjects: build.query({
          query: () => "/",
-         //  providesTags: ["Project"],
-         providesTags: (result, error, arg) =>
-            result
-               ? [
-                    ...result.map(({ id }) => ({ type: "Project", id })),
-                    "Project",
-                 ]
-               : ["Project"],
+         // providesTags: ["Project"],
+         // providesTags: (result, error, arg) =>
+         //    result
+         //       ? [
+         //            ...result.map(({ id }) => ({ type: "Project", id })),
+         //            "Project",
+         //         ]
+         //       : ["Project"],
       }),
 
       getSingleProject: build.query({
@@ -54,7 +54,33 @@ export const apiSlice = createApi({
             method: "PUT",
             body: data,
          }),
-         invalidatesTags: ["Project"],
+         // invalidatesTags: ["Project"],
+         async onQueryStarted(args, { dispatch, queryFulfilled }) {
+            try {
+               const { data: updatedProject } = await queryFulfilled;
+
+               dispatch(
+                  apiSlice.util.updateQueryData(
+                     "getProjects",
+                     undefined,
+                     (draft) => {
+                        let project = draft?.find(
+                           (item) => item?.id === args?.id
+                        );
+
+                        // update
+                        project.title = updatedProject?.title;
+                        project.thumbnail = updatedProject?.thumbnail;
+                        project.category = updatedProject?.category;
+                        project.description = updatedProject?.description;
+                        project.demo = updatedProject?.demo;
+                     }
+                  )
+               );
+            } catch (err) {
+               console.log(err);
+            }
+         },
       }),
 
       deleteProject: build.mutation({
